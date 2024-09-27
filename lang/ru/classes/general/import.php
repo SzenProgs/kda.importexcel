@@ -1,0 +1,38 @@
+<?
+$MESS['IBLOCK_BAD_FILE_ERROR'] = "Произошла ошибка при загрузке файла на сервер.";
+$MESS['IBLOCK_BAD_FILE_NOT_FOUND'] = "Файл не найден.";
+$MESS['IBLOCK_BAD_FILE_NOT_PICTURE'] = "Не графический файл.";
+$MESS['IBLOCK_ERR_BAD_FILE_UNSUPPORTED'] = "Изменение размера картинки возможно только для файлов JPEG, GIF, PNG или WEBP.";
+$MESS['KDA_IE_NOT_SET_UID'] = "Не указано поле для идентификации элемента (лист %s, поле %s)";
+$MESS['KDA_IE_NOT_SET_FIELD'] = "Не указано поле %s (лист %s, строка %s)";
+$MESS['KDA_IE_ADD_ELEMENT_ERROR'] = "Ошибка при создании элемента: %s (лист %s, строка %s)";
+$MESS['KDA_IE_UPDATE_ELEMENT_ERROR'] = "Ошибка при изменении элемента: %s (лист %s, строка %s, ID элемента %s)";
+$MESS['KDA_IE_ADD_OFFER_ERROR'] = "Ошибка при создании торгового предложения: %s (лист %s, строка %s)";
+$MESS['KDA_IE_UPDATE_OFFER_ERROR'] = "Ошибка при обновлении торгового предложения: %s (лист %s, строка %s)";
+$MESS['KDA_IE_ADD_HLBLELEM_ERROR'] = "Ошибка при создании элемента справочника: %s (свойство %s, лист %s, строка %s)";
+$MESS['KDA_IE_FIELD_VAL_N'] = "0,нет,Нет,НЕТ,not,n,false";
+$MESS['KDA_IE_FIELD_VAL_Y'] = "1,да,Да,ДА,yes,y,true";
+$MESS['KDA_IE_ADD_SECTION_ERROR'] = "Ошибка при создании раздела '%s': %s (лист %s, строка %s)";
+$MESS['KDA_IE_UPDATE_SECTION_ERROR'] = "Ошибка при обновлении раздела ID=%s: %s (лист %s, строка %s)";
+$MESS['KDA_IE_NOT_SAVE_SECTION_SEPARATE'] = "Ошибка при сохранении раздела (лист %s, строка %s)";
+$MESS['KDA_IE_NEW_ELEMENT_WITH_ID'] = "Не удается создать элемент с ID=\"%s\". %s (лист %s, строка %s)";
+$MESS['KDA_IE_NEW_OFFER_WITH_ID'] = "Не удается создать торговое предложение с ID=\"%s\". %s (лист %s, строка %s)";
+$MESS['KDA_IE_DISCOUNT_PRODUCT_GIFT'] = "Подарок к товару";
+$MESS['KDA_IE_DISCOUNT_NAME_TYPE_P'] = "Скидка";
+$MESS['KDA_IE_DISCOUNT_NAME_TYPE_F'] = "Скидка";
+$MESS['KDA_IE_DISCOUNT_NAME_TYPE_S'] = "Скидка с фиксированной ценой";
+$MESS['KDA_IE_FATAL_ERROR'] = "Ошибка выполнения скрипта: [%s] %s.<br>Файл: %s, строка %s<br>";
+$MESS['KDA_IE_FATAL_ERROR_IN_LINE'] = "Ошибка выполнения скрипта (лист: %s, строка: %s): [%s] %s.<br>Файл: %s, строка %s<br>";
+$MESS['KDA_IE_PHPEXPRESSION_ERROR'] = "Ошибка выполнения php-преобразования в поле \"%s\", строка %s, лист %s.<br>Текст ошибки: %s<br>Текст преобразования:<br>%s<br>";
+$MESS['KDA_IE_PHPEXPRESSION_OFFER_ERROR'] = "Ошибка выполнения php-преобразования в поле торгового предложения \"%s\", строка %s, лист %s.<br>Текст ошибки: %s<br>Текст преобразования:<br>%s<br>";
+$MESS['KDA_IE_ERROR_LINE'] = "Лист: %s, строка: %s. ";
+$MESS['KDA_IE_REQPROP_EMPTY'] = "Обязательное свойство &laquo;%s&raquo; не может быть пустым";
+$MESS['KDA_IE_REQPROP_EMPTY_NOT_SET'] = "Обязательное свойство &laquo;%s&raquo; не задано";
+$MESS['KDA_IE_ERROR_FORMAT_ID'] = "ID должно содержать только цифры и не может начинаться с нуля";
+$MESS['KDA_IE_ERROR_EXISTING_ID'] = "Элемент с указанным ID уже существует";
+$MESS['KDA_IE_ERROR_OUTOFRANGE_ID'] = "ID не может быть больше %s";
+$MESS['KDA_IE_CUSTOM_ERROR'] = "%s (лист %s, строка %s)";
+$MESS['KDA_IE_FILE_ERROR'] = "Ошибка при загрузке файла %s.";
+$MESS['KDA_IE_FILE_ERROR_NOT_CONNECTING'] = "Не удаётся соединиться с сайтом %s.";
+$MESS['KDA_IE_FILE_ERROR_STATUS_404'] = "В ответ получен статус 404.";
+?>
