@@ -180,7 +180,7 @@ class CKDAImportProfileFS extends CKDAImportProfileAll {
 				continue;
 			}
 			
-			$arParams = CUtil::JsObjectToPhp(file_get_contents($tmpfile));
+			$arParams = \KdaIE\Utils::JsObjectToPhp(file_get_contents($tmpfile));
 			$percent = round(((int)$arParams['total_read_line'] / (int)$arParams['total_file_line']) * 100);
 			$percent = min($percent, 99);
 			$arProfiles[$k] = array(
@@ -198,7 +198,7 @@ class CKDAImportProfileFS extends CKDAImportProfileAll {
 		$tmpfile = $this->tmpdir.$id.($this->suffix ? '_'.$this->suffix : '').'.txt';
 		if(file_exists($tmpfile))
 		{
-			$arParams = CUtil::JsObjectToPhp(file_get_contents($tmpfile));
+			$arParams = \KdaIE\Utils::JsObjectToPhp(file_get_contents($tmpfile));
 			if($arParams['tmpdir'])
 			{
 				DeleteDirFilesEx(substr($arParams['tmpdir'], strlen($_SERVER['DOCUMENT_ROOT'])));
@@ -212,7 +212,7 @@ class CKDAImportProfileFS extends CKDAImportProfileAll {
 		$tmpfile = $this->tmpdir.$id.($this->suffix ? '_'.$this->suffix : '').'.txt';
 		if(file_exists($tmpfile))
 		{
-			$arParams = CUtil::JsObjectToPhp(file_get_contents($tmpfile));
+			$arParams = \KdaIE\Utils::JsObjectToPhp(file_get_contents($tmpfile));
 			$paramFile = $arParams['tmpdir'].'params.txt';
 			$arParams = unserialize(file_get_contents($paramFile));
 			return $arParams;
@@ -229,7 +229,7 @@ class CKDAImportProfileFS extends CKDAImportProfileAll {
 			{
 				return false;
 			}
-			$arParams = CUtil::JsObjectToPhp(file_get_contents($tmpfile));
+			$arParams = \KdaIE\Utils::JsObjectToPhp(file_get_contents($tmpfile));
 			return $arParams;
 		}
 		return array();

@@ -54,8 +54,8 @@ if($_POST['action']=='savenewgroup')
 		}
 	}
 	$APPLICATION->RestartBuffer();
-	if(strlen($error) > 0) echo \CUtil::PhpToJSObject(array('TYPE'=>'ERROR', 'MESSAGE'=>$error));
-	else echo \CUtil::PhpToJSObject(array('TYPE'=>'SUCCESS'));
+	if(strlen($error) > 0) echo \KdaIE\Utils::PhpToJSObject(array('TYPE'=>'ERROR', 'MESSAGE'=>$error));
+	else echo \KdaIE\Utils::PhpToJSObject(array('TYPE'=>'SUCCESS'));
 	
 	die();
 }
@@ -101,7 +101,7 @@ elseif($_GET['action']=='showoldparams' || $_GET['action']=='saveoldparams')
 		{
 			$oProfile->RestoreFromChanges($pid, (int)$_POST['restore_point']);
 		}
-		echo \CUtil::PhpToJSObject(array('TYPE'=>'SUCCESS', 'MESSAGE'=>GetMessage("KDA_IE_OLD_SETTINGS_RESTORE_SUCCESS")));
+		echo \KdaIE\Utils::PhpToJSObject(array('TYPE'=>'SUCCESS', 'MESSAGE'=>GetMessage("KDA_IE_OLD_SETTINGS_RESTORE_SUCCESS")));
 	}
 	elseif($_GET['action']=='showoldparams')
 	{

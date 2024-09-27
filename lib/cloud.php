@@ -148,7 +148,7 @@ class Cloud
 			$client = new \Bitrix\Main\Web\HttpClient(array('socketTimeout'=>15, 'disableSslVerification'=>true));
 			$client->setHeader('Authorization', "OAuth ".$token);
 			$res = $client->get('https://cloud-api.yandex.net/v1/disk/public/resources?public_key='.urlencode($path).(strlen($subPath) > 0 ? '&path='.urlencode($subPath) : '').'&limit=99999');
-			$arRes = \CUtil::JsObjectToPhp($res);
+			$arRes = \KdaIE\Utils::JsObjectToPhp($res);
 			$arItems = $arRes['_embedded']['items'];
 			if(is_array($arItems))
 			{
@@ -248,7 +248,7 @@ class Cloud
 			$client = new \Bitrix\Main\Web\HttpClient(array('socketTimeout'=>10, 'disableSslVerification'=>true));
 			$client->setHeader('Authorization', "OAuth ".$token);
 			$res = $client->get('https://cloud-api.yandex.net/v1/disk/public/resources?public_key='.urlencode($path).'&preview_size=XXXL');
-			$arRes = \CUtil::JsObjectToPhp($res);
+			$arRes = \KdaIE\Utils::JsObjectToPhp($res);
 			if(is_array($arRes) && $arRes['preview'])
 			{
 				$fileLink = $arRes['preview'];
@@ -267,7 +267,7 @@ class Cloud
 				$client = new \Bitrix\Main\Web\HttpClient(array('socketTimeout'=>10, 'disableSslVerification'=>true));
 				$client->setHeader('Authorization', "OAuth ".$token);
 				$res = $client->get('https://cloud-api.yandex.net/v1/disk/public/resources?public_key='.urlencode($path).(strlen($subPath) > 0 ? '&path='.urlencode($subPath) : '').'&limit=9999'.($fromFile ? '' : '&sort=-created'));
-				$arRes = \CUtil::JsObjectToPhp($res);
+				$arRes = \KdaIE\Utils::JsObjectToPhp($res);
 				$arItems = $arRes['_embedded']['items'];
 			}
 			if(is_array($arItems))
@@ -313,7 +313,7 @@ class Cloud
 				$client = new \Bitrix\Main\Web\HttpClient(array('socketTimeout'=>10, 'disableSslVerification'=>true));
 				$client->setHeader('Authorization', "OAuth ".$token);
 				$res = $client->get('https://cloud-api.yandex.net/v1/disk/public/resources/download?public_key='.urlencode($path).(strlen($subPath) > 0 ? '&path='.urlencode($subPath) : ''));
-				$arRes = \CUtil::JsObjectToPhp($res);
+				$arRes = \KdaIE\Utils::JsObjectToPhp($res);
 				if($arRes['error']=='DiskNotFoundError' && strlen($subPath)==0 && preg_match('#(^.*/i/[^/]*)/.+$#', $path, $m))
 				{
 					$path = $m[1];
@@ -554,7 +554,7 @@ class Cloud
 			$ob = new \Bitrix\Main\Web\HttpClient(array('socketTimeout'=>20, 'disableSslVerification'=>true));
 			$ob->setHeader('Authorization', "Bearer ".$accessToken);
 			$res = $ob->get($apiPath);
-			$arFile = \CUtil::JsObjectToPhp($res);
+			$arFile = \KdaIE\Utils::JsObjectToPhp($res);
 			if($arFile['error'])
 			{
 				$accessToken = '';
@@ -565,7 +565,7 @@ class Cloud
 		{
 			$ob = new \Bitrix\Main\Web\HttpClient(array('socketTimeout'=>20, 'disableSslVerification'=>true));
 			$res = $ob->post('https://esolutions.su/marketplace/oauth.php', array('refresh_token'=> $refreshToken));
-			$arRes = \CUtil::JsObjectToPhp($res);
+			$arRes = \KdaIE\Utils::JsObjectToPhp($res);
 			if($arRes['access_token'])
 			{
 				$accessToken = $arRes['access_token'];
@@ -574,7 +574,7 @@ class Cloud
 				$ob = new \Bitrix\Main\Web\HttpClient(array('socketTimeout'=>20, 'disableSslVerification'=>true));
 				$ob->setHeader('Authorization', "Bearer ".$accessToken);
 				$res = $ob->get($apiPath);
-				$arFile = \CUtil::JsObjectToPhp($res);
+				$arFile = \KdaIE\Utils::JsObjectToPhp($res);
 			}
 		}
 		if($type=='folder')
@@ -586,7 +586,7 @@ class Cloud
 				$ob = new \Bitrix\Main\Web\HttpClient(array('socketTimeout'=>20, 'disableSslVerification'=>true));
 				$ob->setHeader('Authorization', "Bearer ".$accessToken);
 				$res = $ob->get($apiPath.'&pageToken='.$arFilePage['nextPageToken']);
-				$arFilePage = \CUtil::JsObjectToPhp($res);
+				$arFilePage = \KdaIE\Utils::JsObjectToPhp($res);
 				if(is_array($arFilePage) && isset($arFilePage['files']) && is_array($arFilePage['files']))
 				{
 					$arFile['files'] = array_merge($arFile['files'], $arFilePage['files']);

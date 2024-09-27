@@ -14,7 +14,7 @@ if(!is_array($_POST['EMAIL_SETTINGS']))
 {
 	if(strlen($_POST['EMAIL_SETTINGS']) > 0 && strpos($_POST['EMAIL_SETTINGS'], '{')===false) $_POST['EMAIL_SETTINGS'] = base64_decode($_POST['EMAIL_SETTINGS']);
 	$es = $_POST['EMAIL_SETTINGS'];
-	$_POST['EMAIL_SETTINGS'] = CUtil::JsObjectToPhp($es);
+	$_POST['EMAIL_SETTINGS'] = \KdaIE\Utils::JsObjectToPhp($es);
 	if(!is_array($_POST['EMAIL_SETTINGS'])) $_POST['EMAIL_SETTINGS'] = unserialize($es);
 	if(!is_array($_POST['EMAIL_SETTINGS'])) $_POST['EMAIL_SETTINGS'] = array();
 	foreach($_POST['EMAIL_SETTINGS'] as $k=>$v) //replace \'
@@ -49,7 +49,7 @@ if($_POST['action']=='checkconnect')
 		$arFolders = $mail->GetListingFolders();
 		$arResult['folders'] = $arFolders;
 	}
-	echo CUtil::PhpToJSObject($arResult);
+	echo \KdaIE\Utils::PhpToJSObject($arResult);
 	die();
 }
 

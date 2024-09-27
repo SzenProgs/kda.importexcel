@@ -1690,7 +1690,10 @@ var EList = {
 			$('input[type=checkbox]', this.DIV).each(function(){
 				BX.adminFormTools.modifyCheckbox(this);
 			});
-			ESettings.BindConversionEvents();
+			//ESettings.BindConversionEvents();
+			setTimeout(function(){
+				ESettings.BindConversionEvents();
+			}, 500);
 			$('select.kda-ie-select2text').each(function(){
 				var s = $(this);
 				s.wrap('<div class="kda-ie-select2text-wrap"></div>');
@@ -3828,6 +3831,7 @@ var ESettings = {
 		if(!this.fieldNames)
 		{
 			this.fieldNames = {};
+			
 			if(typeof admKDASettingMessages=='object')
 			{
 				for(var k in admKDASettingMessages)
@@ -3836,14 +3840,28 @@ var ESettings = {
 					{
 						this.fieldNames[k] = admKDASettingMessages[k];
 					}
-					/*
-					for(var k2 in admKDASettingMessages[k].FIELDS)
+					else if(k=='RATES' && typeof admKDASettingMessages[k]=='object')
 					{
-						this.fieldNames[k2] = admKDASettingMessages[k].FIELDS[k2]+' ('+admKDASettingMessages[k].TITLE+')';
+						for(var i in admKDASettingMessages[k])
+						{
+							this.fieldNames[i] = admKDASettingMessages[k][i];
+						}
 					}
-					*/
+					else if(k=='EXTRAFIELDS' && typeof admKDASettingMessages[k]=='object')
+					{
+						for(var k2 in admKDASettingMessages[k])
+						{
+							if(typeof admKDASettingMessages[k][k2]=='object' && admKDASettingMessages[k][k2].FIELDS)
+							{
+								for(var k3 in admKDASettingMessages[k][k2].FIELDS)
+								{
+									this.fieldNames[k3] = admKDASettingMessages[k][k2].FIELDS[k3]+' ('+admKDASettingMessages[k][k2].TITLE+')';
+								}
+							}
+						}
+					}
 				}
-			}
+			}			
 		}
 		return this.fieldNames;
 	},
@@ -3851,6 +3869,7 @@ var ESettings = {
 	BindConversionEvents: function()
 	{
 		var obj = this;
+		var colLetters = this.GetColLetters();
 		$('.kda-ie-settings-conversion:not([data-events-init])').each(function(){
 			var parent = this;
 			$(this).attr('data-events-init', 1);
@@ -3918,25 +3937,33 @@ var ESettings = {
 			$('.field_from input, .field_from textarea, .field_to input, .field_to textarea', parent).bind('change keyup', function(){
 				this.rows = (this.value.indexOf("\n")==-1 ? 1 : 2);
 				
-				/*
 				var arVals = this.value.match(/(#[A-Za-z0-9\_]+#)/g);
-				var title = '';
+				var title = '', subtitle = '';
 				if(arVals && (typeof arVals=='object') && arVals.length > 0)
 				{
 					var fieldNames = obj.GetFieldNames();
-					var fieldKey;
+					var fieldKey, keyNum;
 					for(var i=0; i<arVals.length; i++)
 					{
 						fieldKey = arVals[i].substring(1, arVals[i].length - 1);
-						if(fieldNames[fieldKey])
+						if(fieldKey.match(/^CELL\d+$/))
 						{
-							title += (title.length > 0 ? "\r\n" : '')+arVals[i]+' - '+fieldNames[fieldKey];
+							keyNum = fieldKey.substr(4);
+							subtitle = arVals[i]+' - '+BX.message("KDA_IE_CONVERSION_COL_NUMBER")+' '+keyNum+(colLetters[keyNum-1] ? ' ('+colLetters[keyNum-1]+')' : '');
 						}
+						else if(fieldKey.match(/^CELL_[A-Z]+\d+$/))
+						{
+							keyNum = fieldKey.substr(5);
+							subtitle = arVals[i]+' - '+BX.message("KDA_IE_CONVERSION_CELL_NUMBER")+' '+keyNum;
+						}
+						else if(fieldNames[fieldKey])
+						{
+							subtitle = arVals[i]+' - '+fieldNames[fieldKey];
+						}
+						if(subtitle.length > 0 && title.indexOf(subtitle)==-1) title += (title.length > 0 ? "\r\n" : '')+subtitle;
 					}
 				}
-				this.title = title;
-				*/
-				
+				this.title = title;				
 			}).trigger('change');
 		});
 	},
@@ -3996,6 +4023,9 @@ var ESettings = {
 		{
 			$('input, textarea', div).not('.choose_val').val('');
 			$('select', div).prop('selectedIndex', 0); 
+			$('.kda-ie-conv-select-value[data-default-val]', div).each(function(){
+				$(this).html($(this).attr('data-default-val'));
+			})
 			div.hide();
 		}
 	},
@@ -4020,6 +4050,27 @@ var ESettings = {
 		}
 	},
 	
+	GetColLetters: function()
+	{
+		if(!this.colLetters)
+		{
+			var colLetters = [];
+			for(var k='A'.charCodeAt(0); k<='Z'.charCodeAt(0); k++)
+			{
+				colLetters.push(String.fromCharCode(k));
+			}
+			for(var k='A'.charCodeAt(0); k<='Z'.charCodeAt(0); k++)
+			{
+				for(var k2='A'.charCodeAt(0); k2<='Z'.charCodeAt(0); k2++)
+				{
+					colLetters.push(String.fromCharCode(k, k2));
+				}
+			}
+			this.colLetters = colLetters;
+		}
+		return this.colLetters;
+	},
+	
 	ShowChooseVal: function(btn, cnt, onlyCells)
 	{
 		if(cnt < 1) return;
@@ -4034,23 +4085,12 @@ var ESettings = {
 		}
 		arLines.push({'HTML':'<input type="text" placeholder="'+BX.message("KDA_IE_INPUT_FAST_SEARCH")+'" id="'+id+'_search" class="kda_btn_fast_search">'});
 		
-		if(!onlyCells && admKDASettingMessages.CURRENT_VALUE)
+		if(!onlyCells && admKDASettingMessages.VAL)
 		{
-			arLines.push({'TEXT':admKDASettingMessages.CURRENT_VALUE,'TITLE':'#VAL# - '+admKDASettingMessages.CURRENT_VALUE,'ONCLICK':'ESettings.SetUrlVar(\'#VAL#\')'});
+			arLines.push({'TEXT':admKDASettingMessages.VAL,'TITLE':'#VAL# - '+admKDASettingMessages.VAL,'ONCLICK':'ESettings.SetUrlVar(\'#VAL#\')'});
 		}
 		
-		var colLetters = [];
-		for(var k='A'.charCodeAt(0); k<='Z'.charCodeAt(0); k++)
-		{
-			colLetters.push(String.fromCharCode(k));
-		}
-		for(var k='A'.charCodeAt(0); k<='Z'.charCodeAt(0); k++)
-		{
-			for(var k2='A'.charCodeAt(0); k2<='Z'.charCodeAt(0); k2++)
-			{
-				colLetters.push(String.fromCharCode(k, k2));
-			}
-		}
+		var colLetters = this.GetColLetters();
 		for(var i=0; i<cnt; i++)
 		{
 			arLines.push({'TEXT':admKDASettingMessages.CELL_VALUE+' '+(i+1)+' ('+colLetters[i]+')','TITLE':'#CELL'+(i+1)+'# - '+admKDASettingMessages.CELL_VALUE+' '+(i+1)+' ('+colLetters[i]+')','ONCLICK':'ESettings.SetUrlVar(\'#CELL'+(i+1)+'#\')'});
@@ -4097,15 +4137,15 @@ var ESettings = {
 					}
 				}
 			}
-			arLines.push({'TEXT':admKDASettingMessages.CELL_LINK,'TITLE':'#CLINK# - '+admKDASettingMessages.CELL_LINK,'ONCLICK':'ESettings.SetUrlVar(\'#CLINK#\')'});
-			arLines.push({'TEXT':admKDASettingMessages.CELL_COMMENT,'TITLE':'#CNOTE# - '+admKDASettingMessages.CELL_COMMENT,'ONCLICK':'ESettings.SetUrlVar(\'#CNOTE#\')'});
-			arLines.push({'TEXT':admKDASettingMessages.IFILENAME,'TITLE':'#FILENAME# - '+admKDASettingMessages.IFILENAME,'ONCLICK':'ESettings.SetUrlVar(\'#FILENAME#\')'});
-			arLines.push({'TEXT':admKDASettingMessages.IFILEDATE,'TITLE':'#FILEDATE# - '+admKDASettingMessages.IFILEDATE,'ONCLICK':'ESettings.SetUrlVar(\'#FILEDATE#\')'});
-			arLines.push({'TEXT':admKDASettingMessages.ISHEETNAME,'TITLE':'#SHEETNAME# - '+admKDASettingMessages.ISHEETNAME,'ONCLICK':'ESettings.SetUrlVar(\'#SHEETNAME#\')'});
-			arLines.push({'TEXT':admKDASettingMessages.IROWNUMBER,'TITLE':'#ROWNUMBER# - '+admKDASettingMessages.IROWNUMBER,'ONCLICK':'ESettings.SetUrlVar(\'#ROWNUMBER#\')'});
+			arLines.push({'TEXT':admKDASettingMessages.CLINK,'TITLE':'#CLINK# - '+admKDASettingMessages.CLINK,'ONCLICK':'ESettings.SetUrlVar(\'#CLINK#\')'});
+			arLines.push({'TEXT':admKDASettingMessages.CNOTE,'TITLE':'#CNOTE# - '+admKDASettingMessages.CNOTE,'ONCLICK':'ESettings.SetUrlVar(\'#CNOTE#\')'});
+			arLines.push({'TEXT':admKDASettingMessages.FILENAME,'TITLE':'#FILENAME# - '+admKDASettingMessages.FILENAME,'ONCLICK':'ESettings.SetUrlVar(\'#FILENAME#\')'});
+			arLines.push({'TEXT':admKDASettingMessages.FILEDATE,'TITLE':'#FILEDATE# - '+admKDASettingMessages.FILEDATE,'ONCLICK':'ESettings.SetUrlVar(\'#FILEDATE#\')'});
+			arLines.push({'TEXT':admKDASettingMessages.SHEETNAME,'TITLE':'#SHEETNAME# - '+admKDASettingMessages.SHEETNAME,'ONCLICK':'ESettings.SetUrlVar(\'#SHEETNAME#\')'});
+			arLines.push({'TEXT':admKDASettingMessages.ROWNUMBER,'TITLE':'#ROWNUMBER# - '+admKDASettingMessages.ROWNUMBER,'ONCLICK':'ESettings.SetUrlVar(\'#ROWNUMBER#\')'});
 			arLines.push({'TEXT':admKDASettingMessages.DATETIME,'TITLE':'#DATETIME# - '+admKDASettingMessages.DATETIME,'ONCLICK':'ESettings.SetUrlVar(\'#DATETIME#\')'});
 			arLines.push({'TEXT':admKDASettingMessages.SEP_SECTION,'TITLE':'#SEP_SECTION# - '+admKDASettingMessages.SEP_SECTION,'ONCLICK':'ESettings.SetUrlVar(\'#SEP_SECTION#\')'});
-			arLines.push({'TEXT':admKDASettingMessages.HASH_FILEDS,'TITLE':'#HASH# - '+admKDASettingMessages.HASH_FILEDS,'ONCLICK':'ESettings.SetUrlVar(\'#HASH#\')'});
+			arLines.push({'TEXT':admKDASettingMessages.HASH,'TITLE':'#HASH# - '+admKDASettingMessages.HASH,'ONCLICK':'ESettings.SetUrlVar(\'#HASH#\')'});
 		}
 		
 		BX.adminShowMenu(btn, arLines, '');

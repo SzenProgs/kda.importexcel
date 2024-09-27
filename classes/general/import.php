@@ -1901,7 +1901,7 @@ class CKDAImportExcel extends CKDAImportExcelData {
 			}
 			if(strlen($valText) > 0)
 			{
-				$arStyle = md5(CUtil::PhpToJSObject($this->GetCellStyle($val)));
+				$arStyle = md5(\KdaIE\Utils::PhpToJSObject($this->GetCellStyle($val)));
 				if(isset($this->sectionstyles[$arStyle]) || isset($this->propertystyles[$arStyle]))
 				{
 					$checkValue = false;
@@ -2079,7 +2079,7 @@ class CKDAImportExcel extends CKDAImportExcelData {
 			if(($htmlVal = $val->getHtmlValue())!==false) $arItem['html_'.$column] = $htmlVal;
 			if($this->params['ELEMENT_NOT_LOAD_STYLES']!='Y' && (!isset($arItem['STYLE']) || ($this->sectioncolumn!==false && $this->sectioncolumn==$column)) && strlen(trim($valText))>0)
 			{
-				$arItem['STYLE'] = md5(CUtil::PhpToJSObject($this->GetCellStyle($val)));
+				$arItem['STYLE'] = md5(\KdaIE\Utils::PhpToJSObject($this->GetCellStyle($val)));
 			}	
 			if($this->params['ELEMENT_LOAD_IMAGES']=='Y')
 			{
@@ -2762,7 +2762,7 @@ class CKDAImportExcel extends CKDAImportExcelData {
 			unset($writeParams['currentelement']);
 			unset($writeParams['currentelementitem']);
 			$writeParams['action'] = ($end ? 'finish' : 'continue');
-			file_put_contents($this->procfile, CUtil::PhpToJSObject($writeParams));
+			file_put_contents($this->procfile, \KdaIE\Utils::PhpToJSObject($writeParams));
 		}
 	}
 	
@@ -5893,7 +5893,7 @@ class CKDAImportExcel extends CKDAImportExcelData {
 		}
 		elseif($arProp['PROPERTY_TYPE']=='S' && $arProp['USER_TYPE']=='SAsproMaxRegionPhone')
 		{
-			if(!is_array($val) && strlen($val) > 0)$val = array('VALUE'=>\CUtil::JsObjectToPhp($val));
+			if(!is_array($val) && strlen($val) > 0)$val = array('VALUE'=>\KdaIE\Utils::JsObjectToPhp($val));
 		}
 		elseif($arProp['USER_TYPE']=='DateTime' || $arProp['USER_TYPE']=='Date')
 		{
@@ -7707,7 +7707,7 @@ class CKDAImportExcel extends CKDAImportExcelData {
 		$this->SaveStatusImport();
 		$oProfile = CKDAImportProfile::getInstance();
 		$oProfile->OnBreakImport($error);
-		echo '<!--module_return_data-->'.CUtil::PhpToJSObject($this->GetBreakParams());
+		echo '<!--module_return_data-->'.\KdaIE\Utils::PhpToJSObject($this->GetBreakParams());
 		die();
 	}
 }

@@ -55,7 +55,7 @@ if($REQUEST_METHOD == "POST" && check_bitrix_sessid())
 		echo $message->Show();
 		?>
 		<script type="text/javascript">
-			DoNext(<?echo CUtil::PhpToJSObject($arResult['NS'])?>);
+			DoNext(<?echo \KdaIE\Utils::PhpToJSObject($arResult['NS'])?>);
 		</script>
 		<?
 		die();

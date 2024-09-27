@@ -595,7 +595,7 @@ class CKDAIEFilter {
 			if(isset($arFields[$v['FIELD']]) && isset($arFields[$v['FIELD']]['type']) && in_array($arFields[$v['FIELD']]['type'], array('section', 'list')))
 			{
 				$arValues = $this->GetListValues($v['FIELD']);
-				echo '<input type="hidden" name="FVALS_'.htmlspecialcharsbx($v['FIELD']).'" value="'.htmlspecialcharsbx(CUtil::PhpToJSObject($arValues)).'">';
+				echo '<input type="hidden" name="FVALS_'.htmlspecialcharsbx($v['FIELD']).'" value="'.htmlspecialcharsbx(\KdaIE\Utils::PhpToJSObject($arValues)).'">';
 			}
 		}
 	}
@@ -606,7 +606,7 @@ class CKDAIEFilter {
 		?>
 		<div class="kda-ee-sheet-cfilter" id="<?echo $fid;?>" data-type="<?echo $this->type;?>" <?if(!in_array($this->type, array('e', 'hl'))){echo ' style="display: none;"';}?>>
 			<div class="kda-ee-sheet-cfilter-hidden">
-				<input type="hidden" name="OLD_FILTER" value="<?echo (count($arFilter) > 0 ? htmlspecialcharsbx(\CUtil::PhpToJSObject($arFilter)) : '');?>">
+				<input type="hidden" name="OLD_FILTER" value="<?echo (count($arFilter) > 0 ? htmlspecialcharsbx(\KdaIE\Utils::PhpToJSObject($arFilter)) : '');?>">
 				<input type="hidden" name="IBLOCK_ID" value="<?echo htmlspecialcharsbx($this->iblockId);?>">
 				<?$this->ShowSelectFilterFields($fl, $this->iblockId, $arFilter);?>
 			</div>

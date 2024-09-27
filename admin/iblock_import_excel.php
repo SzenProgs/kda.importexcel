@@ -72,7 +72,7 @@ if(strlen($PROFILE_ID) > 0 && $PROFILE_ID!=='new')
 			{
 				if($v2 && !is_array($v2))
 				{
-					$EXTRASETTINGS[$k][$k2] = CUtil::JsObjectToPhp($v2);
+					$EXTRASETTINGS[$k][$k2] = \KdaIE\Utils::JsObjectToPhp($v2);
 				}
 			}
 		}
@@ -156,7 +156,7 @@ function ShowTblLine($data, $list, $line, $checked = true)
 				if($arStyle['FONT-STYLE']) $style .= 'font-style:italic;';
 				if($arStyle['TEXT-DECORATION']=='single') $style .= 'text-decoration:underline;';
 				if($arStyle['PADDING-LEFT'] > 0) $style .= 'padding-left:'.((int)$arStyle['PADDING-LEFT']*4).'px;';
-				$dataStyle = 'data-style="'.htmlspecialcharsex(CUtil::PhpToJSObject($row['STYLE'])).'"';
+				$dataStyle = 'data-style="'.htmlspecialcharsex(\KdaIE\Utils::PhpToJSObject($row['STYLE'])).'"';
 			}
 			$style = ($style ? 'style="'.$style.'"' : '');
 			$parentStyle = ($parentStyle ? 'style="'.$parentStyle.'"' : '');
@@ -195,7 +195,7 @@ if ($REQUEST_METHOD == "POST" && $MODE=='AJAX')
 		));
 		$APPLICATION->RestartBuffer();
 		ob_end_clean();
-		echo CUtil::PhpToJSObject($arValues);
+		echo \KdaIE\Utils::PhpToJSObject($arValues);
 		die();
 	}
 	
@@ -213,7 +213,7 @@ if ($REQUEST_METHOD == "POST" && $MODE=='AJAX')
 		$APPLICATION->RestartBuffer();
 		ob_end_clean();
 		$oProfile = new CKDAImportProfile();
-		echo CUtil::PhpToJSObject($oProfile->GetProccessParams($PROCCESS_PROFILE_ID));
+		echo \KdaIE\Utils::PhpToJSObject($oProfile->GetProccessParams($PROCCESS_PROFILE_ID));
 		die();
 	}
 	
@@ -276,7 +276,7 @@ if ($REQUEST_METHOD == "POST" && $MODE=='AJAX')
 		ob_end_clean();
 		$fl = new CKDAImportProfile();
 		$id = $fl->Copy($_REQUEST['ID']);
-		echo CUtil::PhpToJSObject(array('id'=>$id));
+		echo \KdaIE\Utils::PhpToJSObject(array('id'=>$id));
 		die();
 	}
 	
@@ -297,7 +297,7 @@ if ($REQUEST_METHOD == "POST" && $MODE=='AJAX')
 		
 		$APPLICATION->RestartBuffer();
 		if(ob_get_contents()) ob_end_clean();
-		echo CUtil::PhpToJSObject($arVals);
+		echo \KdaIE\Utils::PhpToJSObject($arVals);
 		die();
 	}
 	
@@ -686,9 +686,9 @@ if ($REQUEST_METHOD == "POST" && $STEP > 1 && check_bitrix_sessid())
 						<?if(count($worksheet['lines']) > 0){?>
 							<?if(!empty($SETTINGS['TITLES_LIST'][$k])){?>
 								<input type="hidden" name="TITLES_JSON" value="<??>">
-								<script>EList.SetOldTitles('<?echo $k;?>', <?echo CUtil::PhpToJSObject($SETTINGS['TITLES_LIST'][$k]);?>);</script>
+								<script>EList.SetOldTitles('<?echo $k;?>', <?echo \KdaIE\Utils::PhpToJSObject($SETTINGS['TITLES_LIST'][$k]);?>);</script>
 							<?}?>
-							<input type="hidden" name="SETTINGS[ADDITIONAL_SETTINGS][<?echo $k;?>]" value="<?if($SETTINGS['ADDITIONAL_SETTINGS'][$k])echo htmlspecialcharsex(CUtil::PhpToJSObject($SETTINGS['ADDITIONAL_SETTINGS'][$k]));?>">
+							<input type="hidden" name="SETTINGS[ADDITIONAL_SETTINGS][<?echo $k;?>]" value="<?if($SETTINGS['ADDITIONAL_SETTINGS'][$k])echo htmlspecialcharsex(\KdaIE\Utils::PhpToJSObject($SETTINGS['ADDITIONAL_SETTINGS'][$k]));?>">
 							<input type="hidden" name="SETTINGS[LIST_LINES][<?echo $k;?>]" value="<?echo $worksheet['lines_count'];?>">
 							<input type="hidden" name="SETTINGS[LIST_ACTIVE][<?echo $k;?>]" value="N">
 							<input type="checkbox" name="SETTINGS[LIST_ACTIVE][<?echo $k;?>]" id="list_active_<?echo $k;?>" value="Y" <?=(!isset($SETTINGS['LIST_ACTIVE'][$k]) || $SETTINGS['LIST_ACTIVE'][$k]=='Y' ? 'checked' : '')?>> <label for="list_active_<?echo $k;?>"><small><?echo GetMessage("KDA_IE_DOWNLOAD_LIST"); ?></small></label>
@@ -707,7 +707,7 @@ if ($REQUEST_METHOD == "POST" && $STEP > 1 && check_bitrix_sessid())
 								{
 									if(strpos($k2, '__')===0 && !empty($v2))
 									{
-										?><div><a href="javascript:void(0)" id="field_settings_<?echo $k;?>_<?echo $k2;?>" onclick="EList.ShowFieldSettings(this);"><input type="hidden" name="EXTRASETTINGS[<?echo $k;?>][<?echo $k2;?>]" value=""><script>EList.SetExtraParams("field_settings_<?echo $k;?>_<?echo $k2;?>", <?echo CUtil::PhpToJSObject($v2);?>)</script></a></div><?
+										?><div><a href="javascript:void(0)" id="field_settings_<?echo $k;?>_<?echo $k2;?>" onclick="EList.ShowFieldSettings(this);"><input type="hidden" name="EXTRASETTINGS[<?echo $k;?>][<?echo $k2;?>]" value=""><script>EList.SetExtraParams("field_settings_<?echo $k;?>_<?echo $k2;?>", <?echo \KdaIE\Utils::PhpToJSObject($v2);?>)</script></a></div><?
 									}
 								}
 							}
@@ -905,7 +905,7 @@ if ($REQUEST_METHOD == "POST" && $STEP > 1 && check_bitrix_sessid())
 													<a href="javascript:void(0)" class="field_settings <?=(empty($EXTRASETTINGS[$k][$j]) ? 'inactive' : '')?>" id="field_settings_<?=$k?>_<?=$j?>" title="<?echo GetMessage("KDA_IE_SETTINGS_FIELD"); ?>" onclick="EList.ShowFieldSettings(this);">
 														<input type="hidden" name="EXTRASETTINGS[<?echo $k?>][<?echo $j?>]" value="">
 														<?if(!empty($EXTRASETTINGS[$k][$j])){?>
-															<script>EList.SetExtraParams("field_settings_<?=$k?>_<?=$j?>", <?echo CUtil::PhpToJSObject($EXTRASETTINGS[$k][$j]);?>)</script>
+															<script>EList.SetExtraParams("field_settings_<?=$k?>_<?=$j?>", <?echo \KdaIE\Utils::PhpToJSObject($EXTRASETTINGS[$k][$j]);?>)</script>
 														<?}?>
 													</a>
 													<a href="javascript:void(0)" class="field_delete" title="<?echo GetMessage("KDA_IE_SETTINGS_DELETE_FIELD"); ?>" onclick="EList.DeleteUploadField(this);"></a>
@@ -959,7 +959,7 @@ if ($REQUEST_METHOD == "POST" && $STEP > 1 && check_bitrix_sessid())
 		$arResult = $moduleRunnerClass::ImportIblock($DATA_FILE_NAME, $params, $EXTRASETTINGS, $stepparams, $PROFILE_ID);
 		$APPLICATION->RestartBuffer();
 		if(ob_get_contents()) ob_end_clean();
-		echo '<!--module_return_data-->'.CUtil::PhpToJSObject($arResult).'<!--/module_return_data-->';
+		echo '<!--module_return_data-->'.\KdaIE\Utils::PhpToJSObject($arResult).'<!--/module_return_data-->';
 		
 		require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/epilog_after.php");
 		die();
@@ -2219,7 +2219,7 @@ tabControl.DisableTab("edit1");
 tabControl.DisableTab("edit3");
 
 var admKDAMessages = {};
-admKDAMessages['lineActions'] = <?echo CUtil::PhpToJSObject($arMenu);?>;
+admKDAMessages['lineActions'] = <?echo \KdaIE\Utils::PhpToJSObject($arMenu);?>;
 <?elseif ($STEP > 2): ?>
 tabControl.SelectTab("edit3");
 tabControl.DisableTab("edit1");
@@ -2244,9 +2244,9 @@ else
 if($_POST['PROCESS_CONTINUE']=='Y'){
 	$oProfile = new CKDAImportProfile();
 ?>
-	EImport.Init(<?=CUtil::PhpToJSObject($arPost);?>, <?=CUtil::PhpToJSObject($oProfile->GetProccessParams($_POST['PROFILE_ID']));?>);
+	EImport.Init(<?=\KdaIE\Utils::PhpToJSObject($arPost);?>, <?=\KdaIE\Utils::PhpToJSObject($oProfile->GetProccessParams($_POST['PROFILE_ID']));?>);
 <?}else{?>
-	EImport.Init(<?=CUtil::PhpToJSObject($arPost);?>);
+	EImport.Init(<?=\KdaIE\Utils::PhpToJSObject($arPost);?>);
 <?}?>
 <?endif; ?>
 //-->

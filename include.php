@@ -103,7 +103,8 @@ CModule::AddAutoloadClasses(
 		'\Bitrix\KdaImportexcel\ClassManager' => "lib/class_manager.php",
 		'\Bitrix\KdaImportexcel\Api' => "lib/api.php",
 		'\Bitrix\KdaImportexcel\ExcelViewer' => "lib/excel_viewer.php",
-		'\Bitrix\KdaImportexcel\HttpClient' => "lib/httpclient.php"
+		'\Bitrix\KdaImportexcel\HttpClient' => "lib/httpclient.php",
+		'\KdaIE\Utils' => 'lib/utils.php'
 	)
 );
 

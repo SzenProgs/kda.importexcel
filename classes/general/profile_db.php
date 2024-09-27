@@ -1159,7 +1159,7 @@ class CKDAImportProfileDB extends CKDAImportProfileAll {
 		}
 		else
 		{
-			$arParams = CUtil::JsObjectToPhp(file_get_contents($tmpfile));
+			$arParams = \KdaIE\Utils::JsObjectToPhp(file_get_contents($tmpfile));
 		}
 		return $arParams;
 	}

@@ -929,7 +929,7 @@ class CKDAImportUtils {
 			$arHeaders = array('User-Agent' => $userAgent);
 			if(preg_match('/^\{.*\}$/s', $path))
 			{
-				$arParams = CUtil::JsObjectToPhp($path);
+				$arParams = \KdaIE\Utils::JsObjectToPhp($path);
 				if(is_array($arParams['HEADERS'])) $arHeaders = array_merge($arHeaders, $arParams['HEADERS']);
 				if(isset($arParams['FILELINK']))
 				{
@@ -976,13 +976,13 @@ class CKDAImportUtils {
 						{
 							$client = self::GetHttpClient(array('redirect'=>false), array(), array(), $location);
 							$res = trim($client->post($location, array('grant_type'=>'password')));
-							if(strpos($res, '{')===0 && ($arAnswer = \CUtil::JsObjectToPhp($res)) && is_array($arAnswer) && 
+							if(strpos($res, '{')===0 && ($arAnswer = \KdaIE\Utils::JsObjectToPhp($res)) && is_array($arAnswer) && 
 								((array_key_exists('error', $arAnswer) && !empty($arAnswer['error']))
 								|| (array_key_exists('message', $arAnswer) && !empty($arAnswer['message']))))
 							{
 								if(!array_key_exists('grant_type', $arParams['VARS']) || strlen($arParams['VARS']['grant_type'])==0) $arParams['VARS']['grant_type'] = 'password';
 								$client = self::GetHttpClient(array('redirect'=>false), array(), array(), $location);
-								$arAnswer = \CUtil::JsObjectToPhp(trim($client->post($location, $arParams['VARS'])));
+								$arAnswer = \KdaIE\Utils::JsObjectToPhp(trim($client->post($location, $arParams['VARS'])));
 								if(is_array($arAnswer) && isset($arAnswer['token_type']) && isset($arAnswer['access_token']))
 								{
 									$arHeaders['Authorization'] = $arAnswer['token_type'].' '.$arAnswer['access_token'];
@@ -1853,7 +1853,7 @@ class CKDAImportUtils {
 		$arParams = array();
 		if(preg_match('/^\{.*\}$/s', $path))
 		{
-			$arParams = \CUtil::JsObjectToPhp($path);
+			$arParams = \KdaIE\Utils::JsObjectToPhp($path);
 			if(isset($arParams['FILELINK']))
 			{
 				$path = $arParams['FILELINK'];
@@ -1868,7 +1868,7 @@ class CKDAImportUtils {
 			if(is_array($arParams) && isset($arParams['FILELINK']))
 			{
 				$arParams['FILELINK'] = $path;
-				$path = \CUtil::PHPToJSObject($arParams);
+				$path = \KdaIE\Utils::PHPToJSObject($arParams);
 			}
 			$loop = 0;
 			while($loop < 10 && !(($arFile = self::MakeFileArray($path)) && $arFile['name'])){$loop++;}
@@ -1939,7 +1939,7 @@ class CKDAImportUtils {
 		{
 			if(preg_match('/^\{.*\}$/s', $SETTINGS_DEFAULT["EXT_DATA_FILE"]))
 			{
-				$arParams = CUtil::JsObjectToPhp($SETTINGS_DEFAULT["EXT_DATA_FILE"]);
+				$arParams = \KdaIE\Utils::JsObjectToPhp($SETTINGS_DEFAULT["EXT_DATA_FILE"]);
 				if(isset($arParams['FILELINK']))
 				{
 					$path = $arParams['FILELINK'];
@@ -1955,7 +1955,7 @@ class CKDAImportUtils {
 		{
 			$json = $SETTINGS_DEFAULT["EMAIL_DATA_FILE"];
 			if(strlen($json) > 0 && strpos($json, '{')===false) $json = base64_decode($json);
-			$arParams = CUtil::JsObjectToPhp($json);
+			$arParams = \KdaIE\Utils::JsObjectToPhp($json);
 			if(!is_array($arParams)) $arParams = unserialize($json);
 			if(isset($arParams['EMAIL']))
 			{
@@ -2042,7 +2042,7 @@ class CKDAImportUtils {
 			if(preg_match('/BX\.file_input\((\{.*\})\)\s*[:;<]/Us', $partContent, $m))
 			{
 				$json = $m[1];
-				$arConfig = CUtil::JsObjectToPhp($json);
+				$arConfig = \KdaIE\Utils::JsObjectToPhp($json);
 				array_walk_recursive($arConfig, array(__CLASS__, 'ArrStringToBool'));
 				$arConfigEmail = array(
 					'TEXT' => GetMessage("KDA_IE_FILE_SOURCE_EMAIL"),
@@ -2058,7 +2058,7 @@ class CKDAImportUtils {
 				);
 				$arConfig['menuNew'][] = $arConfigLinkAuth;
 				$arConfig['menuExist'][] = $arConfigLinkAuth;
-				$newJson = CUtil::PHPToJSObject($arConfig);
+				$newJson = \KdaIE\Utils::PHPToJSObject($arConfig);
 				$newPartContent = str_replace($json, $newJson, $partContent);
 				$content = str_replace($partContent, $newPartContent, $content);
 			}

@@ -171,11 +171,11 @@ class CKDAImportMail {
 	
 	public static function GetNewFile(&$json, $maxTime=0, $extId='')
 	{
-		$arParams = CUtil::JsObjectToPhp($json);
+		$arParams = \KdaIE\Utils::JsObjectToPhp($json);
 		if(!is_array($arParams)) $arParams = array();
 		$mail = new CKDAImportMail($arParams);
 		$fileId = $mail->GetFileId($arParams, $maxTime, $extId);
-		$json = CUtil::PhpToJSObject($arParams);
+		$json = \KdaIE\Utils::PhpToJSObject($arParams);
 		return $fileId;
 	}
 }

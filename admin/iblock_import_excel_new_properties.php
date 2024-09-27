@@ -258,7 +258,7 @@ if($arPost['action']=='save')
 		$APPLICATION->RestartBuffer();
 		ob_end_clean();
 	
-		echo '<script>EList.OnAfterAddNewProperties("'.$listIndex.'", "'.$IBLOCK_ID.'", '.CUtil::PhpToJSObject($arResult).');</script>';
+		echo '<script>EList.OnAfterAddNewProperties("'.$listIndex.'", "'.$IBLOCK_ID.'", '.\KdaIE\Utils::PhpToJSObject($arResult).');</script>';
 		die();
 	}
 }

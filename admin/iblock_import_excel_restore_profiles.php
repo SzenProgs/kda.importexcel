@@ -17,7 +17,7 @@ if($_GET['action']=='getprofilesfromfile')
 	
 	$oProfile = new \CKDAImportProfile();
 	$arResult = $oProfile->GetProfilesFromBackup($_FILES['RESTORE_FILE']);
-	echo \CUtil::PhpToJSObject($arResult);
+	echo \KdaIE\Utils::PhpToJSObject($arResult);
 	
 	die();
 }
@@ -30,7 +30,7 @@ if($_POST['action']=='save')
 	
 	$oProfile = new \CKDAImportProfile();
 	$arResult = $oProfile->RestoreBackup($_FILES['RESTORE_FILE'], $_POST['PARAMS']);
-	echo \CUtil::PhpToJSObject($arResult);
+	echo \KdaIE\Utils::PhpToJSObject($arResult);
 	
 	die();
 	
@@ -43,7 +43,7 @@ if($_POST['action']=='save')
 	
 	if($_GET['return_data'])
 	{
-		$returnJson = (empty($PEXTRASETTINGS[$keys[1][0]][$keys[1][1]]) ? '""' : CUtil::PhpToJSObject($PEXTRASETTINGS[$keys[1][0]][$keys[1][1]]));
+		$returnJson = (empty($PEXTRASETTINGS[$keys[1][0]][$keys[1][1]]) ? '""' : \KdaIE\Utils::PhpToJSObject($PEXTRASETTINGS[$keys[1][0]][$keys[1][1]]));
 		echo '<script>EList.SetExtraParams("'.$oid.'", '.$returnJson.')</script>';
 	}
 	else

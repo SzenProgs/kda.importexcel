@@ -380,7 +380,7 @@ class CKDAImportProfileAll {
 				{
 					if($v && !is_array($v))
 					{
-						$v = CUtil::JsObjectToPhp($v);
+						$v = \KdaIE\Utils::JsObjectToPhp($v);
 					}
 					if(!is_array($v)) $v = array();
 					$settings['ADDITIONAL_SETTINGS'][$k] = $v;

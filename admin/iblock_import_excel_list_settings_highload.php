@@ -35,7 +35,7 @@ if($_POST['action']=='save' && $_POST['ADDITIONAL_SETTINGS'])
 	$APPLICATION->RestartBuffer();
 	ob_end_clean();
 	
-	echo '<input type="hidden" name="from_list_settings" id="from_list_settings" value="'.htmlspecialcharsex(CUtil::PhpToJSObject($_POST['ADDITIONAL_SETTINGS'])).'">';
+	echo '<input type="hidden" name="from_list_settings" id="from_list_settings" value="'.htmlspecialcharsex(\KdaIE\Utils::PhpToJSObject($_POST['ADDITIONAL_SETTINGS'])).'">';
 	echo '<script>';
 	echo '$(\'table.kda-ie-tbl[data-list-index='.htmlspecialcharsex($arGet['list_index']).'] input[name^="SETTINGS[ADDITIONAL_SETTINGS]"]\').val($("#from_list_settings").val());';
 	echo 'BX.WindowManager.Get().Close();';
@@ -44,7 +44,7 @@ if($_POST['action']=='save' && $_POST['ADDITIONAL_SETTINGS'])
 }
 
 $ADDITIONAL_SETTINGS = $arGet['SETTINGS']['ADDITIONAL_SETTINGS'][$arGet['list_index']];
-if($ADDITIONAL_SETTINGS) $ADDITIONAL_SETTINGS = CUtil::JsObjectToPhp($ADDITIONAL_SETTINGS);
+if($ADDITIONAL_SETTINGS) $ADDITIONAL_SETTINGS = \KdaIE\Utils::JsObjectToPhp($ADDITIONAL_SETTINGS);
 if(!is_array($ADDITIONAL_SETTINGS)) $ADDITIONAL_SETTINGS= array();
 
 

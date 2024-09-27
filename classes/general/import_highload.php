@@ -783,7 +783,7 @@ class CKDAImportExcelHighload {
 			$arItem['~'.$column] = $valText;
 			if($this->params['ELEMENT_NOT_LOAD_STYLES']!='Y' && !isset($arItem['STYLE']) && strlen(trim($valText))>0)
 			{
-				$arItem['STYLE'] = md5(CUtil::PhpToJSObject(self::GetCellStyle($val)));
+				$arItem['STYLE'] = md5(\KdaIE\Utils::PhpToJSObject(self::GetCellStyle($val)));
 			}
 			if($this->params['ELEMENT_LOAD_IMAGES']=='Y')
 			{
@@ -1478,7 +1478,7 @@ class CKDAImportExcelHighload {
 				'worksheetCurrentRow' => $this->worksheetCurrentRow
 			));
 			$writeParams['action'] = ($end ? 'finish' : 'continue');
-			file_put_contents($this->procfile, CUtil::PhpToJSObject($writeParams));
+			file_put_contents($this->procfile, \KdaIE\Utils::PhpToJSObject($writeParams));
 		}
 	}
 	
@@ -2390,7 +2390,7 @@ class CKDAImportExcelHighload {
 		ob_end_clean();
 		$this->errors[] = $error;
 		$this->SaveStatusImport();
-		echo '<!--module_return_data-->'.CUtil::PhpToJSObject($this->GetBreakParams());
+		echo '<!--module_return_data-->'.\KdaIE\Utils::PhpToJSObject($this->GetBreakParams());
 		die();
 	}
 }

@@ -19,4 +19,6 @@ $MESS["KDA_IE_CRON_CHOOSE_PROFILE"] = "Choose profile";
 $MESS['KDA_IE_SELECT_NOT_CHOSEN'] = "- not chosen -";
 $MESS['KDA_IE_SELECT_FAST_VIEW'] = "Enable quick list search";
 $MESS['KDA_IE_SELECT_STANDARD_VIEW'] = "Enable standard list display";
+$MESS["KDA_IE_CONVERSION_COL_NUMBER"] = "value in column";
+$MESS["KDA_IE_CONVERSION_CELL_NUMBER"] = "value in cell";
 ?>

@@ -76,7 +76,7 @@ if(isset($_POST['POSTEXTRA']) && strlen($_POST['POSTEXTRA']) > 0)
 	{
 		$arFieldParams = $APPLICATION->ConvertCharset($arFieldParams, 'UTF-8', 'CP1251');
 	}
-	$arFieldParams = CUtil::JsObjectToPhp($arFieldParams);
+	$arFieldParams = \KdaIE\Utils::JsObjectToPhp($arFieldParams);
 	if(!$arFieldParams) $arFieldParams = array();
 	$fName = 'EXTRA'.str_replace('[FIELDS_LIST]', '', $fieldName);
 	//$fNameEval = strtr($fName, array("["=>"['", "]"=>"']"));
@@ -140,7 +140,7 @@ elseif($_POST['action']=='import_conv_csv')
 	);
 	/*$APPLICATION->RestartBuffer();
 	ob_end_clean();
-	echo \CUtil::PhpToJSObject(array('CONV'=>$arConv, 'EXTRA_CONV'=>$arExtraConv));
+	echo \KdaIE\Utils::PhpToJSObject(array('CONV'=>$arConv, 'EXTRA_CONV'=>$arExtraConv));
 	die();*/
 }
 elseif($_POST['action']=='save_margin_template')
@@ -167,7 +167,7 @@ elseif($_POST['action']=='save' && is_array($_POST['EXTRASETTINGS']))
 	
 	if($_GET['return_data'])
 	{
-		$returnJson = (empty($PEXTRASETTINGS[$keys[1][0]][$keys[1][1]]) ? '""' : CUtil::PhpToJSObject($PEXTRASETTINGS[$keys[1][0]][$keys[1][1]]));
+		$returnJson = (empty($PEXTRASETTINGS[$keys[1][0]][$keys[1][1]]) ? '""' : \KdaIE\Utils::PhpToJSObject($PEXTRASETTINGS[$keys[1][0]][$keys[1][1]]));
 		echo '<script>EList.SetExtraParams("'.$oid.'", '.$returnJson.')</script>';
 	}
 	else
@@ -2347,22 +2347,22 @@ if($bCurrency && is_callable(array('\Bitrix\Currency\CurrencyTable', 'getList'))
 ?>
 <script>
 var admKDASettingMessages = {
-	'CURRENT_VALUE': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_CURRENT_VALUE"));?>',
+	'VAL': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_CURRENT_VALUE"));?>',
 	'CELL_VALUE': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_CELL_VALUE"));?>',
-	'CELL_LINK': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_CELL_LINK"));?>',
-	'CELL_COMMENT': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_CELL_COMMENT"));?>',
-	'HASH_FILEDS': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_HASH_FILEDS"));?>',
-	'IFILENAME': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_IFILENAME"));?>',
-	'IFILEDATE': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_IFILEDATE"));?>',
-	'ISHEETNAME': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_ISHEETNAME"));?>',
-	'IROWNUMBER': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_IROWNUMBER"));?>',
+	'CLINK': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_CELL_LINK"));?>',
+	'CNOTE': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_CELL_COMMENT"));?>',
+	'HASH': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_HASH_FILEDS"));?>',
+	'FILENAME': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_IFILENAME"));?>',
+	'FILEDATE': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_IFILEDATE"));?>',
+	'SHEETNAME': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_ISHEETNAME"));?>',
+	'ROWNUMBER': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_IROWNUMBER"));?>',
 	'DATETIME': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_DATETIME"));?>',
 	'SEP_SECTION': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_SEP_SECTION"));?>',
 	'RATE_USD': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_RATE_USD"));?>',
 	'RATE_EUR': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_RATE_EUR"));?>',
-	'RATES': <?echo (is_array($arRates) && count($arRates) > 0 ? \CUtil::PhpToJSObject($arRates) : "''");?>,
-	'EXTRAFIELDS': <?echo \CUtil::PhpToJSObject($arSFields)?>,
-	'VALUES': <?echo (is_array($arPropVals) && count($arPropVals) > 0 ? \CUtil::PhpToJSObject($arPropVals) : "''");?>
+	'RATES': <?echo (is_array($arRates) && count($arRates) > 0 ? \KdaIE\Utils::PhpToJSObject($arRates) : "''");?>,
+	'EXTRAFIELDS': <?echo \KdaIE\Utils::PhpToJSObject($arSFields)?>,
+	'VALUES': <?echo (is_array($arPropVals) && count($arPropVals) > 0 ? \KdaIE\Utils::PhpToJSObject($arPropVals) : "''");?>
 };
 </script>
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/epilog_popup_admin.php");?>

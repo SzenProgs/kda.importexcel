@@ -249,6 +249,6 @@ foreach($arProfiles as $PROFILE_ID)
 			elseif(is_file($_SERVER["DOCUMENT_ROOT"].$fn)) unlink($_SERVER["DOCUMENT_ROOT"].$fn);
 		}
 	}
-	echo date('Y-m-d H:i:s').": import complete\r\n"."Profile id = ".$PROFILE_ID."\r\n".CUtil::PhpToJSObject($arResult)."\r\n\r\n";
+	echo date('Y-m-d H:i:s').": import complete\r\n"."Profile id = ".$PROFILE_ID."\r\n".\KdaIE\Utils::PhpToJSObject($arResult)."\r\n\r\n";
 }
 ?>

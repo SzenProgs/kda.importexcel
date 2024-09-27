@@ -128,7 +128,7 @@ class MailRu
 
         $result = $this->Post($url, $postData);
         if ($result !== 'error') {
-			$result = \CUtil::JsObjectToPhp($result);
+			$result = \KdaIE\Utils::JsObjectToPhp($result);
 			if($result['body']['token'])
 			{
 				$this->downloadToken = $result['body']['token'];
@@ -150,7 +150,7 @@ class MailRu
 			$this->build = self::GetBuildFromText($result);
 			
 			$result = $this->Get('https://cloud.mail.ru/api/v2/dispatcher?api=2&build='.$this->build.'&x-page-id='.$this->x_page_id.'&email=anonym&x-email=anonym&_='.round(microtime(true)*1000));
-			$result = \CUtil::JsObjectToPhp($result);
+			$result = \KdaIE\Utils::JsObjectToPhp($result);
 			if(is_array($result))
 			{
 				$this->weblink_get = $result['body']['weblink_get'][0]['url'];
@@ -164,7 +164,7 @@ class MailRu
 		$ob = new \Bitrix\Main\Web\HttpClient(array('socketTimeout'=>10, 'disableSslVerification'=>true));
 		$ob->setHeader('Content-Type', 'application/json;charset=utf-8');
 		$result = $ob->post('https://cloud.mail.ru/api/v3/zip/weblink', '{"weblink_list":["'.trim($path, '/').'"],"name":"'.$name.'"}');
-		$result = \CUtil::JsObjectToPhp($result);
+		$result = \KdaIE\Utils::JsObjectToPhp($result);
 		if($result['key']) return $result['key'];
 		else return "error";
 		
@@ -184,7 +184,7 @@ class MailRu
 
         $result = $this->Post($url, $postData);
         if ($result !== 'error') {
-			$result = \CUtil::JsObjectToPhp($result);
+			$result = \KdaIE\Utils::JsObjectToPhp($result);
             return $result['body'];
         } else {
             return "error";
@@ -198,7 +198,7 @@ class MailRu
 		$url = 'https://cloud.mail.ru/api/v2/folder?weblink='.urlencode(trim($link, '/')).'&offset=0&limit=9999&api=2&build='.$this->build.'&x-page-id='.$this->x_page_id.'&email=anonym&x-email=anonym&_='.round(microtime(true)*1000);
 		$result = $this->Get($url);
 		if ($result !== 'error') {
-			$result = \CUtil::JsObjectToPhp($result);
+			$result = \KdaIE\Utils::JsObjectToPhp($result);
 			if(is_array($result['body']['list']))
 			{
 				foreach($result['body']['list'] as $arItem)
@@ -231,7 +231,7 @@ class MailRu
 		$result = $this->Get($url.'?'.$postData);
 
 		if ($result !== 'error') {
-			$result = \CUtil::JsObjectToPhp($result);
+			$result = \KdaIE\Utils::JsObjectToPhp($result);
 			if(is_array($result['body']['list']))
 			{
 				foreach($result['body']['list'] as $arItem)
@@ -253,7 +253,7 @@ class MailRu
 		$url = 'https://cloud.mail.ru/api/v2/folder?weblink='.urlencode(trim($link, '/')).'&offset=0&limit=9999&api=2&build='.$this->build.'&x-page-id='.$this->x_page_id.'&email=anonym&x-email=anonym&_='.round(microtime(true)*1000);
 		$result = $this->Get($url);
 		if ($result !== 'error') {
-			$result = \CUtil::JsObjectToPhp($result);
+			$result = \KdaIE\Utils::JsObjectToPhp($result);
 			if(is_array($result['body']['list']))
 			{
 				foreach($result['body']['list'] as $arItem)
@@ -288,7 +288,7 @@ class MailRu
 		$result = $this->Get($url.'?'.$postData);
 
 		if ($result !== 'error') {
-			$result = \CUtil::JsObjectToPhp($result);
+			$result = \KdaIE\Utils::JsObjectToPhp($result);
 			if(is_array($result['body']['list']))
 			{
 				foreach($result['body']['list'] as $arItem)

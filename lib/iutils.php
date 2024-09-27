@@ -37,7 +37,7 @@ class IUtils
 			if($langTo===false) $langTo = LANGUAGE_ID;
 			$client = new \Bitrix\Main\Web\HttpClient(array('socketTimeout'=>10, 'disableSslVerification'=>true));
 			$res = $client->post('https://translation.googleapis.com/language/translate/v2', array('q'=>$string, 'source'=>$langFrom, 'target'=>$langTo, 'format'=>"text", 'key'=>$apiKey));
-			$arRes = \CUtil::JSObjectToPhp($res);
+			$arRes = \KdaIE\Utils::JSObjectToPhp($res);
 			if(isset($arRes['data']['translations'][0]['translatedText']))
 			{
 				$string = (is_array($arRes['data']['translations'][0]['translatedText']) ? implode('', $arRes['data']['translations'][0]['translatedText']) : $arRes['data']['translations'][0]['translatedText']);
@@ -50,7 +50,7 @@ class IUtils
 			$client = new \Bitrix\Main\Web\HttpClient(array('socketTimeout'=>10, 'disableSslVerification'=>true));
 			$client->setHeader('Content-Type', 'application/xml');
 			$res = $client->get('https://translate.yandex.net/api/v1.5/tr.json/translate?key='.$apiKey.'&lang='.$langFrom.'-'.$langTo.'&text='.urlencode($string));
-			$arRes = \CUtil::JSObjectToPhp($res);
+			$arRes = \KdaIE\Utils::JSObjectToPhp($res);
 			if(array_key_exists('code', $arRes) && $arRes['code']==200 && array_key_exists('text', $arRes))
 			{
 				$string = (is_array($arRes['text']) ? implode('', $arRes['text']) : $arRes['text']);

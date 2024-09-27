@@ -47,7 +47,7 @@ if(isset($_POST['POSTEXTRA']) && strlen($_POST['POSTEXTRA']) > 0)
 	{
 		$arFieldParams = $APPLICATION->ConvertCharset($arFieldParams, 'UTF-8', 'CP1251');
 	}
-	$arFieldParams = CUtil::JsObjectToPhp($arFieldParams);
+	$arFieldParams = \KdaIE\Utils::JsObjectToPhp($arFieldParams);
 	if(!$arFieldParams) $arFieldParams = array();
 	$fName = 'EXTRA'.str_replace('[FIELDS_LIST]', '', $fieldName);
 	//$fNameEval = strtr($fName, array("["=>"['", "]"=>"']"));
@@ -77,7 +77,7 @@ if($_POST['action']=='save' && is_array($_POST['EXTRASETTINGS']))
 	
 	if($_GET['return_data'])
 	{
-		$returnJson = (empty($PEXTRASETTINGS[$keys[1][0]][$keys[1][1]]) ? '""' : CUtil::PhpToJSObject($PEXTRASETTINGS[$keys[1][0]][$keys[1][1]]));
+		$returnJson = (empty($PEXTRASETTINGS[$keys[1][0]][$keys[1][1]]) ? '""' : \KdaIE\Utils::PhpToJSObject($PEXTRASETTINGS[$keys[1][0]][$keys[1][1]]));
 		echo '<script>EList.SetExtraParams("'.$oid.'", '.$returnJson.')</script>';
 	}
 	else
@@ -944,15 +944,22 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_popup_adm
 		</tr>
 	</table>
 </form>
+<?
+$arRates = array(
+	'USD' => GetMessage("KDA_IE_SETTINGS_LANG_RATE_USD"),
+	'EUR' => GetMessage("KDA_IE_SETTINGS_LANG_RATE_EUR"),
+);
+?>
 <script>
 var admKDASettingMessages = {
 	'CELL_VALUE': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_CELL_VALUE"));?>',
-	'CELL_LINK': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_CELL_LINK"));?>',
-	'IFILENAME': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_IFILENAME"));?>',
-	'ISHEETNAME': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_ISHEETNAME"));?>',
+	'CLINK': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_CELL_LINK"));?>',
+	'FILENAME': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_IFILENAME"));?>',
+	'SHEETNAME': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_ISHEETNAME"));?>',
 	'RATE_USD': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_RATE_USD"));?>',
 	'RATE_EUR': '<?echo htmlspecialcharsex(GetMessage("KDA_IE_SETTINGS_LANG_RATE_EUR"));?>',
-	'VALUES': <?echo (is_array($arPropVals) && count($arPropVals) > 0 ? CUtil::PhpToJSObject($arPropVals) : "''");?>
+	'RATES': <?echo (is_array($arRates) && count($arRates) > 0 ? \KdaIE\Utils::PhpToJSObject($arRates) : "''");?>,
+	'VALUES': <?echo (is_array($arPropVals) && count($arPropVals) > 0 ? \KdaIE\Utils::PhpToJSObject($arPropVals) : "''");?>
 };
 </script>
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/epilog_popup_admin.php");?>

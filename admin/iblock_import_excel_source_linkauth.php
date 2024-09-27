@@ -12,7 +12,7 @@ if($MODULE_RIGHT <= "R") $APPLICATION->AuthForm(GetMessage("ACCESS_DENIED"));
 
 if(isset($_POST['AUTH_SETTINGS']) && !is_array($_POST['AUTH_SETTINGS']))
 {
-	$_POST['AUTH_SETTINGS'] = $AUTH_SETTINGS = CUtil::JsObjectToPhp($_POST['AUTH_SETTINGS']);
+	$_POST['AUTH_SETTINGS'] = $AUTH_SETTINGS = \KdaIE\Utils::JsObjectToPhp($_POST['AUTH_SETTINGS']);
 }
 
 if(is_array($_POST['vars']) && is_array($_POST['values']))
@@ -61,10 +61,10 @@ if($_POST['action']=='checkconnect')
 	ob_end_clean();
 	
 	unset($_POST['AUTH_SETTINGS']['HANDLER_FOR_LINK']);
-	$arFile = CKDAImportUtils::MakeFileArray(CUtil::PhpToJSObject($_POST['AUTH_SETTINGS']));
+	$arFile = CKDAImportUtils::MakeFileArray(\KdaIE\Utils::PhpToJSObject($_POST['AUTH_SETTINGS']));
 	$res = ($arFile['size'] > 0 && $arFile['type']!='text/html');
 	$arResult = array('result'=>($res ? 'success' : 'fail'), 'file'=>$arFile);
-	echo CUtil::PhpToJSObject($arResult);
+	echo \KdaIE\Utils::PhpToJSObject($arResult);
 	die();
 }
 elseif($_POST['action']=='loadparams')
@@ -104,7 +104,7 @@ elseif($_POST['action']=='loadparams')
 		{
 			$client = new \Bitrix\Main\Web\HttpClient(array('disableSslVerification'=>true, 'redirect'=>false));
 			$res = trim($client->post($lastLocation, array('grant_type'=>'password')));
-			if(strpos($res, '{')===0 && ($arAnswer = \CUtil::JsObjectToPhp($res)) && is_array($arAnswer) && 
+			if(strpos($res, '{')===0 && ($arAnswer = \KdaIE\Utils::JsObjectToPhp($res)) && is_array($arAnswer) && 
 				((array_key_exists('error', $arAnswer) && !empty($arAnswer['error']))
 				|| (array_key_exists('message', $arAnswer) && !empty($arAnswer['message']))))
 			{
@@ -174,7 +174,7 @@ elseif($_POST['action']=='loadparams')
 		}
 	}
 	
-	echo CUtil::PhpToJSObject(array('VARS'=>$arVars, 'LOC'=>$formAction));
+	echo \KdaIE\Utils::PhpToJSObject(array('VARS'=>$arVars, 'LOC'=>$formAction));
 	die();
 }
 
@@ -184,7 +184,7 @@ if($_POST['action']=='save' && $_POST['AUTH_SETTINGS'])
 	ob_end_clean();
 	
 	echo '<script>';
-	echo 'EProfile.SetLinkAuthParams('.CUtil::PhpToJSObject($_POST['AUTH_SETTINGS']).');';
+	echo 'EProfile.SetLinkAuthParams('.\KdaIE\Utils::PhpToJSObject($_POST['AUTH_SETTINGS']).');';
 	echo '</script>';
 	die();
 }

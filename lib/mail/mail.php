@@ -238,7 +238,7 @@ class SMail
 	public static function GetNewFile(&$json, $maxTime = 0, $extId='')
 	{
 		if(strlen($json) > 0 && strpos($json, '{')===false) $json = base64_decode($json);
-		$arParams = \CUtil::JsObjectToPhp($json);
+		$arParams = \KdaIE\Utils::JsObjectToPhp($json);
 		if(!is_array($arParams)) $arParams = unserialize($json);
 		if(!is_array($arParams)) $arParams = array();
 		foreach($arParams as $k=>$v) //replace \'

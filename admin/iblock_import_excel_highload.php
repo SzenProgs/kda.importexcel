@@ -45,7 +45,7 @@ if(strlen($PROFILE_ID) > 0 && $PROFILE_ID!=='new')
 			{
 				if($v2 && !is_array($v2))
 				{
-					$EXTRASETTINGS[$k][$k2] = CUtil::JsObjectToPhp($v2);
+					$EXTRASETTINGS[$k][$k2] = \KdaIE\Utils::JsObjectToPhp($v2);
 				}
 			}
 		}
@@ -115,7 +115,7 @@ function ShowTblLine($data, $list, $line, $checked = true)
 				if($row['STYLE']['FONT-WEIGHT']) $style .= 'font-weight:bold;';
 				if($row['STYLE']['FONT-STYLE']) $style .= 'font-style:italic;';
 				if($row['STYLE']['TEXT-DECORATION']=='single') $style .= 'text-decoration:underline;';
-				$dataStyle = 'data-style="'.htmlspecialcharsex(CUtil::PhpToJSObject($row['STYLE'])).'"';
+				$dataStyle = 'data-style="'.htmlspecialcharsex(\KdaIE\Utils::PhpToJSObject($row['STYLE'])).'"';
 			}
 			$style = ($style ? 'style="'.$style.'"' : '');
 			$parentStyle = ($parentStyle ? 'style="'.$parentStyle.'"' : '');
@@ -173,7 +173,7 @@ if ($REQUEST_METHOD == "POST" && $MODE=='AJAX')
 		ob_end_clean();
 		$fl = CKDAImportProfile::getInstance('highload');
 		$id = $fl->Copy($_REQUEST['ID']);
-		echo CUtil::PhpToJSObject(array('id'=>$id));
+		echo \KdaIE\Utils::PhpToJSObject(array('id'=>$id));
 		die();
 	}
 	
@@ -508,7 +508,7 @@ if ($REQUEST_METHOD == "POST" && $STEP > 1 && check_bitrix_sessid())
 					<td class="left"><?echo GetMessage("KDA_IE_LIST_TITLE"); ?> "<?echo $worksheet['title'];?>" <?if($bEmptyList){echo GetMessage("KDA_IE_EMPTY_LIST");}?> <a href="javascript:void(0)" onclick="EList.ShowListSettings(this)" class="list-settings-link" title="<?echo GetMessage("KDA_IE_LIST_SETTINGS");?>"></a></td>
 					<td class="right list-settings">
 						<?if(count($worksheet['lines']) > 0){?>
-							<input type="hidden" name="SETTINGS[ADDITIONAL_SETTINGS][<?echo $k;?>]" value="<?if($SETTINGS['ADDITIONAL_SETTINGS'][$k])echo htmlspecialcharsex(CUtil::PhpToJSObject($SETTINGS['ADDITIONAL_SETTINGS'][$k]));?>">
+							<input type="hidden" name="SETTINGS[ADDITIONAL_SETTINGS][<?echo $k;?>]" value="<?if($SETTINGS['ADDITIONAL_SETTINGS'][$k])echo htmlspecialcharsex(\KdaIE\Utils::PhpToJSObject($SETTINGS['ADDITIONAL_SETTINGS'][$k]));?>">
 							<input type="hidden" name="SETTINGS[LIST_LINES][<?echo $k;?>]" value="<?echo $worksheet['lines_count'];?>">
 							<input type="hidden" name="SETTINGS[LIST_ACTIVE][<?echo $k;?>]" value="N">
 							<input type="checkbox" name="SETTINGS[LIST_ACTIVE][<?echo $k;?>]" id="list_active_<?echo $k;?>" value="Y" <?=(!isset($SETTINGS['LIST_ACTIVE'][$k]) || $SETTINGS['LIST_ACTIVE'][$k]=='Y' ? 'checked' : '')?>> <label for="list_active_<?echo $k;?>"><small><?echo GetMessage("KDA_IE_DOWNLOAD_LIST"); ?></small></label>
@@ -655,7 +655,7 @@ if ($REQUEST_METHOD == "POST" && $STEP > 1 && check_bitrix_sessid())
 													<a href="javascript:void(0)" class="field_settings <?=(empty($EXTRASETTINGS[$k][$j]) ? 'inactive' : '')?>" id="field_settings_<?=$k?>_<?=$j?>" title="<?echo GetMessage("KDA_IE_SETTINGS_FIELD"); ?>" onclick="EList.ShowFieldSettings(this);">
 														<input type="hidden" name="EXTRASETTINGS[<?echo $k?>][<?echo $j?>]" value="">
 														<?if(!empty($EXTRASETTINGS[$k][$j])){?>
-															<script>EList.SetExtraParams("field_settings_<?=$k?>_<?=$j?>", <?echo CUtil::PhpToJSObject($EXTRASETTINGS[$k][$j]);?>)</script>
+															<script>EList.SetExtraParams("field_settings_<?=$k?>_<?=$j?>", <?echo \KdaIE\Utils::PhpToJSObject($EXTRASETTINGS[$k][$j]);?>)</script>
 														<?}?>
 													</a>
 													<a href="javascript:void(0)" class="field_delete" title="<?echo GetMessage("KDA_IE_SETTINGS_DELETE_FIELD"); ?>" onclick="EList.DeleteUploadField(this);"></a>
@@ -715,7 +715,7 @@ if ($REQUEST_METHOD == "POST" && $STEP > 1 && check_bitrix_sessid())
 		$arResult = $moduleRunnerClass::ImportHighloadblock($DATA_FILE_NAME, $params, $EXTRASETTINGS, $stepparams, $PROFILE_ID);
 		$APPLICATION->RestartBuffer();
 		ob_end_clean();
-		echo '<!--module_return_data-->'.CUtil::PhpToJSObject($arResult).'<!--/module_return_data-->';
+		echo '<!--module_return_data-->'.\KdaIE\Utils::PhpToJSObject($arResult).'<!--/module_return_data-->';
 		
 		require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/epilog_after.php");
 		die();
@@ -1274,9 +1274,9 @@ tabControl.DisableTab("edit2");
 <?if($_POST['PROCESS_CONTINUE']=='Y'){
 	$oProfile = CKDAImportProfile::getInstance('highload');
 ?>
-	EImport.Init(<?=CUtil::PhpToJSObject($_POST);?>, <?=CUtil::PhpToJSObject($oProfile->GetProccessParams($_POST['PROFILE_ID']));?>);
+	EImport.Init(<?=\KdaIE\Utils::PhpToJSObject($_POST);?>, <?=\KdaIE\Utils::PhpToJSObject($oProfile->GetProccessParams($_POST['PROFILE_ID']));?>);
 <?}else{?>
-	EImport.Init(<?=CUtil::PhpToJSObject($_POST);?>);
+	EImport.Init(<?=\KdaIE\Utils::PhpToJSObject($_POST);?>);
 <?}?>
 <?endif; ?>
 //-->
